@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>unpacker</title>
+    <style>
+      body {
+        background: teal;
+      }
+      .disable {
+        display: none;
+      }
+      .img {
+        cursor: pointer;
+        object-fit: scale-down;
+        width: fit-content;
+        height: fit-content;
+
+        transition: transform 0.4s;
+
+        border: 2px #4caf50 solid;
+        margin: 10px;
+      }
+      .img:hover {
+        transform: scale(1.1);
+      }
+
+      #imgBox {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="file" id="input" />
+      <button id="button" class="disable">Render</button>
+      <button id="clearButton" class="disable">Clear</button>
+      <button id="allButton" class="disable">DownloadAll</button>
+      <p id="count">0</p>
+    </div>
+
+    <div id="imgBox"></div>
+  </body>
+  <script src="script.js"></script>
+</html>
