@@ -3,7 +3,8 @@ const input = document.querySelector("#input"),
   clearButton = document.querySelector("#clearButton"),
   allButton = document.querySelector("#allButton"),
   count = document.querySelector("#count"),
-  box = document.querySelector("#imgBox");
+  box = document.querySelector("#imgBox"),
+  percent = document.querySelector('#percent')
 
 let preparedFiles = []; // Uint8Array[]
 const urls = []; //string[]
@@ -75,10 +76,13 @@ const imgRender = () => {
   }
 };
 
+const startedBites = [137,80,78,71,13,10,26,10,0,0,0,13,73,72]
+
 const extractor = (
   event
   //file reader event
 ) => {
+  console.log(event);
   const packedBytes = event.target?.result;
 
   if (packedBytes && typeof packedBytes !== "string") {
@@ -86,19 +90,23 @@ const extractor = (
     let isIterate = false,
       number = 0;
 
+
     const structuredInt8Bytes = int8Bytes.reduce(
-      (structuredArray, byte, i, src) => {
+     (structuredArray, byte, i, src) => {
         if (!isIterate) {
           if (
-            byte === 137 &&
+            (byte === 137 || byte === 0) &&
             src[i + 1] === 80 &&
             src[i + 2] === 78 &&
             src[i + 3] === 71 &&
             src[i + 4] === 13 &&
             src[i + 5] === 10
-          ) {
+            ) {
             isIterate = true;
-
+            byte = startedBites[0]
+            for (let index = 0; index < startedBites.length; index++) {
+              src[index + i] = startedBites[index]
+            }
             structuredArray[number].push(byte);
           }
         } else {
@@ -129,9 +137,9 @@ const extractor = (
       const bufer = new Uint8Array(img);
       return bufer;
     });
-    count.innerHTML = files.length;
+    count.innerHTML = +count.innerHTML+ files.length;
 
-    preparedFiles = files;
+    preparedFiles = [...preparedFiles,...files];
     buttonChanger(true);
   }
 };
@@ -140,13 +148,18 @@ const inputListener = (
   event
   //file input event
 ) => {
+  count.innerHTML = '';
+  preparedFiles = [];
+
   buttonChanger(false);
   let file = null; //File | null
   if (event.target.files !== null) {
-    file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = extractor;
-    reader.readAsArrayBuffer(file);
+    [...event.target.files].forEach((file) => {
+      // file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = extractor;
+      reader.readAsArrayBuffer(file);
+    })
   }
 };
 
