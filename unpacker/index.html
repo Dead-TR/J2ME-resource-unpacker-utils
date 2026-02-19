@@ -42,19 +42,34 @@
         min-height: 100px;
         background-color: darkcyan;
       }
+
+      #status {
+        margin: 20px 0;
+        padding: 10px;
+        background: rgba(0,0,0,0.2);
+        color: white;
+        font-family: monospace;
+      }
     </style>
   </head>
   <body>
     <div>
-      <!-- <div id="percent">0%</div> -->
       <input type="file" id="input" multiple />
+
+      <div id="status">
+        <div id="progressText">0%</div>
+        <div id="byteInfo">0 / 0 bytes</div>
+        <div id="foundInfo">Found: 0</div>
+      </div>
+
       <button id="button" class="disable">Render</button>
       <button id="clearButton" class="disable">Clear</button>
       <button id="allButton" class="disable">DownloadAll</button>
-      <p id="count">0</p>
-    </div>
+
+      <p>Total rendered: <span id="count">0</span></p>
+</div>
 
     <div id="imgBox"></div>
   </body>
-  <script src="script.js"></script>
+  <script src="main.js"></script>
 </html>
